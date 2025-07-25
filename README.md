@@ -15,6 +15,43 @@ A Retrieval-Augmented Generation chatbot that uses **agent-based architecture** 
 
 ---
 
+## 📸 Screenshots
+
+### 1. Loading the PDF
+This block loads and processes the content of the uploaded PDF file using `PyPDFLoader`.
+
+![Loading PDF]()
+
+---
+
+### 2. Creating the FAISS Vectorstore
+This screenshot shows how we create the vector embeddings using FAISS from the loaded document.
+
+![Creating FAISS Vectorstore](create_vectorstore.png)
+
+---
+
+### 3. Q&A Interaction Output
+This shows how the user inputs a question and receives a generated response from the chatbot.
+
+![Q&A Output](qa_output.png)
+
+---
+
+### 4. Q&A Code Block
+This screenshot shows the code responsible for running the actual Q&A logic using `chain.run()` or `ConversationalRetrievalChain`.
+
+![Q&A Code](qa_code.png)
+
+---
+
+### 5. Initial Google Colab Setup
+The first Colab cell, including installing dependencies and importing the necessary Python libraries.
+
+![Initial Setup](initial_setup.png)
+
+---
+
 ## 🧠 Agentic Architecture
 
 The system uses **3 core agents** communicating via **MCP-style JSON messages**:
@@ -36,6 +73,7 @@ User → UI → CoordinatorAgent
     "query": "What are the KPIs?"
   }
 }
+
 
 🧰 Tech Stack
 | Component        | Tool / Framework                          |
