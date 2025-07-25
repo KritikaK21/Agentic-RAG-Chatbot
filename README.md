@@ -1,120 +1,103 @@
-# 🤖 Agentic RAG Chatbot
+# 🤖 Agentic RAG Chatbot for Multi-Format Document QA using MCP
 
-A powerful Retrieval-Augmented Generation (RAG) based chatbot enhanced with **LangChain**, **OpenAI**, and **FAISS**, allowing document-aware conversational AI with agentic behavior.
-
----
-
-## 📌 Project Overview
-
-This chatbot is capable of:
-
-- 📄 Reading PDF documents  
-- 🔍 Retrieving relevant content  
-- 💬 Answering queries based on that content using **LLMs**  
-- 🧠 Acting agentically to perform more complex tasks  
-
-It uses **LangChain Agents** and **Tools** to extend the chatbot's capabilities beyond basic Q&A.
+A Retrieval-Augmented Generation chatbot that uses **agent-based architecture** and **Model Context Protocol (MCP)** to answer questions from multi-format documents like PDF, DOCX, PPTX, CSV, and TXT.
 
 ---
 
-## 🧰 Tech Stack
+## 🚀 Features
 
-- **Python**
-- **LangChain**
-- **OpenAI API**
-- **FAISS**
-- **PyPDF2**
-- **Streamlit** (for UI)
-
----
-
-## 📁 Folder Structure
-
-Agentic-RAG-Chatbot/
-│
-├── app.py # Main Streamlit App
-├── helper.py # PDF processing & utilities
-├── requirements.txt # Required Python packages
-├── .env # API keys (excluded from Git)
-├── .gitignore # Git ignore rules
-├── README.md # Project documentation
-└── data/
-└── project.pdf # Sample PDF file for testing
+- ✅ Upload and parse documents of multiple formats
+- ✅ Agent-based architecture with clear separation of concerns
+- ✅ Semantic search using embeddings + vector DB
+- ✅ Context-aware LLM responses
+- ✅ Follows MCP for message passing between agents
+- ✅ Streamlit UI for chatting and file upload
 
 ---
 
-## 🚀 Getting Started
+## 🧠 Agentic Architecture
 
-### 1. Clone the Repo
+The system uses **3 core agents** communicating via **MCP-style JSON messages**:
 
-```
-git clone https://github.com/KritikaK21/Agentic-RAG-Chatbot.git
+User → UI → CoordinatorAgent
+├──> IngestionAgent → Parses files
+├──> RetrievalAgent → Embeds & fetches top chunks
+└──> LLMResponseAgent → Generates final response
+📦 **Sample MCP Message:**
+
+```json
+{
+  "type": "CONTEXT_RESPONSE",
+  "sender": "RetrievalAgent",
+  "receiver": "LLMResponseAgent",
+  "trace_id": "abc-123",
+  "payload": {
+    "top_chunks": ["..."],
+    "query": "What are the KPIs?"
+  }
+}
+
+🧰 Tech Stack
+| Component        | Tool / Framework                          |
+| ---------------- | ----------------------------------------- |
+| UI               | Streamlit                                 |
+| LLM              | OpenAI / HuggingFace                      |
+| Embeddings       | Sentence Transformers                     |
+| Vector Store     | FAISS / Chroma                            |
+| File Parsing     | PyMuPDF, python-docx, pandas, python-pptx |
+| Agents           | Python modules                            |
+| Message Protocol | MCP (custom JSON structure)               |
+
+🖥️ Supported File Formats
+PDF
+
+DOCX
+
+PPTX
+
+CSV
+
+TXT 
+
+⚙️ How to Run Locally
+Clone the repo:
+git clone https://github.com/your-username/Agentic-RAG-Chatbot.git
 cd Agentic-RAG-Chatbot
-```
 
-### 2. Set up Virtual Environment (optional but recommended)
-
-```
-python -m venv venv
-source venv/bin/activate  # For Linux/macOS
-venv\Scripts\activate     # For Windows
-```
-
-### 3. Install Dependencies
-```
+Install dependencies:
 pip install -r requirements.txt
-```
 
-### 4. Add Your API Keys
-Create a .env file in the root directory and add:
-```
-OPENAI_API_KEY=your-openai-api-key
-```
-
-✅ Make sure your ```.env``` file is listed in ```.gitignore```
-
-
-## 🧪 How It Works
-
-1. **Upload a PDF file**
-
-2. **Chunks** are created using LangChain's document loaders
-
-3. **Embeddings** are generated using OpenAI and stored using **FAISS**
-
-4. **LangChain Agent** uses the retriever to answer questions from the PDF
-
-5. Interact with the chatbot via a **Streamlit** interface
-
-
-## 💻 Run the App
-```
+Run the Streamlit app:
 streamlit run app.py
-```
-Open http://localhost:8501 in your browser
 
+Upload your files and start chatting! 💬
 
-## 🧠 Agent Tools & Features
-* PDF Question Answering
+📊 PPT and Video
+📝 Architecture PPT included in the repo
 
-* LangChain Conversational Retrieval Chain
+🎥 [Optional] Demo Video Link: (add after upload)
 
-* Dynamic Prompting
+🚧 Challenges Faced
+Parsing multiple file formats efficiently
 
-* Agent + Tool architecture for task delegation
+Maintaining context relevance with semantic retrieval
 
-## 📸 Demo
-Coming soon!
+Structuring agent communication via MCP
 
-## 🙋‍♀️ Author
+Managing chunk size, overlap, and context windows
+
+🔮 Future Scope
+Deploy on Hugging Face / GCP
+
+Add file version tracking
+
+Add authentication and save chat history
+
+Use Redis pub/sub or Kafka for MCP
+
+Add LangChain or LangGraph agents
+
+📌 Author
 Kritika Aggarwal
-🚀 LinkedIn | 🌐 Portfolio (add if available)
+GitHub • LinkedIn
 
-## 📄 License
-This project is licensed under the MIT License.
-
-## ⭐️ Show your support
-If you find this project helpful, please give it a ⭐️ on GitHub!
-Feel free to fork, clone, and improve!
-
----
