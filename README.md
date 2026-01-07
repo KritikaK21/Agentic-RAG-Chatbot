@@ -37,14 +37,16 @@ A Retrieval-Augmented Generation chatbot that uses **agent-based architecture** 
 ## 🧠 Agentic Architecture
 
 The system uses **3 core agents** communicating via **MCP-style JSON messages**:
-
+```
 User → UI → CoordinatorAgent
 ├──> IngestionAgent → Parses files
 ├──> RetrievalAgent → Embeds & fetches top chunks
 └──> LLMResponseAgent → Generates final response
-📦 **Sample MCP Message:**
+```
 
-```json
+## 📦 **Sample MCP Message:**
+```
+json
 {
   "type": "CONTEXT_RESPONSE",
   "sender": "RetrievalAgent",
@@ -55,9 +57,9 @@ User → UI → CoordinatorAgent
     "query": "What are the KPIs?"
   }
 }
+```
 
-
-🧰 Tech Stack
+## 🧰 Tech Stack
 | Component        | Tool / Framework                          |
 | ---------------- | ----------------------------------------- |
 | UI               | Streamlit                                 |
@@ -68,56 +70,47 @@ User → UI → CoordinatorAgent
 | Agents           | Python modules                            |
 | Message Protocol | MCP (custom JSON structure)               |
 
-🖥️ Supported File Formats
-PDF
+## 🖥️ Supported File Formats
+- PDF
+- DOCX
+- PPTX
+- CSV
+- TXT 
 
-DOCX
-
-PPTX
-
-CSV
-
-TXT 
-
-⚙️ How to Run Locally
-Clone the repo:
+## ⚙️ How to Run Locally
+- Clone the repo:
+```
 git clone https://github.com/your-username/Agentic-RAG-Chatbot.git
 cd Agentic-RAG-Chatbot
+```
 
-Install dependencies:
+- Install dependencies:
+```
 pip install -r requirements.txt
+```
 
-Run the Streamlit app:
+- Run the Streamlit app:
+```
 streamlit run app.py
+```
 
-Upload your files and start chatting! 💬
+## Upload your files and start chatting! 💬
 
-📊 PPT and Video
-📝 Architecture PPT included in the repo
+## 🚧 Challenges Faced
+- Parsing multiple file formats efficiently
+- Maintaining context relevance with semantic retrieval
+- Structuring agent communication via MCP
+- Managing chunk size, overlap, and context windows
 
-🎥 [Optional] Demo Video Link: (add after upload)
+## 🔮 Future Scope
+- Deploy on Hugging Face / GCP
+- Add file version tracking
+- Add authentication and save chat history
+- Use Redis pub/sub or Kafka for MCP
+- Add LangChain or LangGraph agents
 
-🚧 Challenges Faced
-Parsing multiple file formats efficiently
+## 📌 Author
+### Kritika Aggarwal
+### LinkedIn: https://www.linkedin.com/in/kritika-aggarwal-734997249/
 
-Maintaining context relevance with semantic retrieval
-
-Structuring agent communication via MCP
-
-Managing chunk size, overlap, and context windows
-
-🔮 Future Scope
-Deploy on Hugging Face / GCP
-
-Add file version tracking
-
-Add authentication and save chat history
-
-Use Redis pub/sub or Kafka for MCP
-
-Add LangChain or LangGraph agents
-
-📌 Author
-Kritika Aggarwal
-GitHub • LinkedIn
 
