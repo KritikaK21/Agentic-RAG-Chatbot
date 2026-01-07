@@ -1,17 +1,25 @@
-# 🤖 Agentic RAG Chatbot for Multi-Format Document QA using MCP
+# 🤖 Agentic Retrieval-Augmented QA System for Multi-Format Documents (MCP-Inspired Architecture)
 
-A Retrieval-Augmented Generation chatbot that uses **agent-based architecture** and **Model Context Protocol (MCP)** to answer questions from multi-format documents like PDF, DOCX, PPTX, CSV, and TXT.
+This project implements an **Agentic Retrieval-Augmented Generation (RAG) system** that answers natural-language questions from documents in multiple formats including **PDF, DOCX, PPTX, CSV, and TXT**.
+
+The system follows a **modular agent-based architecture inspired by the Model Context Protocol (MCP)** — where ingestion, retrieval, and response-generation agents communicate using structured JSON messages. This improves **traceability, modularity, and robustness** compared to monolithic RAG pipelines.
+
+A **Streamlit UI** is included for document upload and interactive Q&A.
 
 ---
 
-## 🚀 Features
+## Key Features
 
-- ✅ Upload and parse documents of multiple formats
-- ✅ Agent-based architecture with clear separation of concerns
-- ✅ Semantic search using embeddings + vector DB
-- ✅ Context-aware LLM responses
-- ✅ Follows MCP for message passing between agents
-- ✅ Streamlit UI for chatting and file upload
+- Multi-format document support: PDF, DOCX, PPTX, CSV, TXT  
+- Agent-based architecture:
+  - Ingestion Agent
+  - Retrieval Agent
+  - LLM Response Agent
+- MCP-style JSON structured message passing
+- Semantic search using embeddings + vector database
+- Context-aware LLM responses
+- Streamlit-based chat UI
+- Modular, debuggable design suitable for real-world systems
 
 ---
 
@@ -34,19 +42,19 @@ A Retrieval-Augmented Generation chatbot that uses **agent-based architecture** 
 
 ---
 
-## 🧠 Agentic Architecture
-
-The system uses **3 core agents** communicating via **MCP-style JSON messages**:
+## System Architecture
 ```
-User → UI → CoordinatorAgent
-├──> IngestionAgent → Parses files
-├──> RetrievalAgent → Embeds & fetches top chunks
-└──> LLMResponseAgent → Generates final response
+User → Streamlit UI → Coordinator Agent
+├── Ingestion Agent → Extracts & chunks documents
+├── Retrieval Agent → Embeds & retrieves top-k chunks
+└── LLM Response Agent → Generates final response
 ```
 
-## 📦 **Sample MCP Message:**
+Agents communicate through MCP-style structured JSON messages.
+
+### Example MCP-Style Message
+
 ```
-json
 {
   "type": "CONTEXT_RESPONSE",
   "sender": "RetrievalAgent",
@@ -70,47 +78,100 @@ json
 | Agents           | Python modules                            |
 | Message Protocol | MCP (custom JSON structure)               |
 
-## 🖥️ Supported File Formats
+## Supported File Types
 - PDF
 - DOCX
 - PPTX
 - CSV
-- TXT 
+- TXT
 
-## ⚙️ How to Run Locally
-- Clone the repo:
+## Installation and Local Setup
+
+**1. Clone the Repository**
 ```
-git clone https://github.com/your-username/Agentic-RAG-Chatbot.git
-cd Agentic-RAG-Chatbot
+git clone https://github.com/<your-username>/agentic-rag-qa.git
+cd agentic-rag-qa
 ```
 
-- Install dependencies:
+**2. Create a Virtual Environment (Recommended)** 
+```
+python -m venv venv
+source venv/bin/activate   # Mac / Linux
+venv\Scripts\activate      # Windows
+```
+
+**3. Install Dependencies**
 ```
 pip install -r requirements.txt
 ```
 
-- Run the Streamlit app:
+**4. Configure Environment Variables**
+Create a .env file in the project root and add:
+```
+OPENAI_API_KEY=your_key_here
+(or your HuggingFace token, depending on configuration)
+```
+
+**5. Run the Application**
 ```
 streamlit run app.py
 ```
+**Upload files and start asking questions.**
 
-## Upload your files and start chatting! 💬
+## Retrieval Pipeline Overview
+- Documents are uploaded and parsed
+- Text is chunked
+- Chunks are embedded
+- Vectors are stored in FAISS/Chroma
+- Relevant chunks are retrieved
+- The LLM generates a grounded response
 
-## 🚧 Challenges Faced
-- Parsing multiple file formats efficiently
-- Maintaining context relevance with semantic retrieval
-- Structuring agent communication via MCP
-- Managing chunk size, overlap, and context windows
+**Key configurable parameters include:**
+- Chunk size
+- Overlap
+- Top-k retrieval
+- Similarity threshold
 
-## 🔮 Future Scope
-- Deploy on Hugging Face / GCP
-- Add file version tracking
-- Add authentication and save chat history
-- Use Redis pub/sub or Kafka for MCP
-- Add LangChain or LangGraph agents
+## Why Agentic Architecture?
+Unlike traditional monolithic RAG systems, this project uses separation of concerns through agents, which enables:
+- Easier debugging and observability
+- Cleaner modularity
+- Replaceable components
+- Realistic production-style design
 
-## 📌 Author
-### Kritika Aggarwal
-### LinkedIn: https://www.linkedin.com/in/kritika-aggarwal-734997249/
+## Example Questions
+- Summarize the key findings across all uploaded documents
+- What KPIs are mentioned in these files?
+- Extract financial metrics from the reports
+- What decisions or recommendations are discussed?
 
+## Challenges Addressed
+- Parsing and normalizing multiple document formats
+- Preserving context relevance during retrieval
+- Designing structured agent communication
+- Managing chunk size and window selection
+- Reducing hallucinations through grounded retrieval
 
+## Future Enhancements
+- Deployment on Hugging Face or cloud platforms
+- Authentication and persistent chat history
+- Redis/Kafka-based message bus
+- LangGraph / LangChain integration
+- Evaluation dashboard and reporting
+
+## Project Objective
+
+This project demonstrates:
+- Practical GenAI system design
+- Agent-based orchestration
+- Retrieval-grounded answering
+- Handling unstructured documents
+- UI + backend integration
+
+## Author
+**Kritika Aggarwal**
+**GitHub:** https://github.com/KritikaK21
+**LinkedIn:** linkedin.com/in/kritika-aggarwal-734997249/
+
+## License
+This project is available under the license of your choice (MIT recommended).
