@@ -54,10 +54,11 @@ This project answers: **what does a well-architected, agent-based RAG system act
 | Metric | Value |
 |--------|-------|
 | Supported formats | PDF, DOCX, PPTX, CSV, TXT |
+| Evaluation accuracy | 85.7% (6/7 test cases) |
 | Avg. retrieval latency | < 2s on local setup |
 | Chunk size (default) | 500 tokens |
-| Top-k retrieval (default) | 5 chunks |
-| Vector store | FAISS (default) / Chroma |
+| Top-k retrieval (default) | 3 chunks |
+| Vector store | Chroma (default) / FAISS |
 
 ---
 
@@ -192,3 +193,4 @@ Built by **Kritika Aggarwal**
 ## 📄 License
 
 MIT License — feel free to use, modify and build on this.
+
