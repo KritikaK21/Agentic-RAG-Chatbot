@@ -1,0 +1,13 @@
+LangChain is a framework for developing applications powered by language models. It enables chaining of LLM calls and retrieval-augmented generation (RAG) from external sources. It is widely used for building chatbots, Q&A systems, and document search tools.
+
+RAG stands for Retrieval-Augmented Generation. It is a technique that retrieves relevant documents from an external knowledge base and uses them as context for the language model to generate accurate, grounded answers.
+
+LangChain supports multiple vector stores including FAISS, Chroma, and Pinecone. These vector stores allow efficient similarity search over embedded document chunks.
+
+LangChain integrates with popular embedding models like OpenAI, Hugging Face, and Cohere. These models convert text into numerical vectors for semantic search.
+
+LangChain can be used to build chatbots, Q&A systems, and document search tools. It is widely adopted for building production-grade AI applications.
+
+LangChain allows developers to combine LLMs with memory, tools, and APIs. This enables building complex workflows where the model can remember past interactions and call external services.
+
+LangChain agents use reasoning to choose tools and interact with users dynamically. Agents can decide which tool to use based on the user query and context.
