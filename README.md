@@ -1,28 +1,35 @@
-# 🤖 Agentic Retrieval-Augmented QA System for Multi-Format Documents (MCP-Inspired Architecture)
+# 🤖 Agentic RAG QA System — Multi-Format Document Intelligence
 
-This project implements an **Agentic Retrieval-Augmented Generation (RAG) system** that answers natural-language questions from documents in multiple formats including **PDF, DOCX, PPTX, CSV, and TXT**.
+A production-inspired **Retrieval-Augmented Generation (RAG)** system that answers natural-language questions from documents across multiple formats — PDF, DOCX, PPTX, CSV, and TXT.
 
-The system follows a **modular agent-based architecture inspired by the Model Context Protocol (MCP)** — where ingestion, retrieval, and response-generation agents communicate using structured JSON messages. This improves **traceability, modularity, and robustness** compared to monolithic RAG pipelines.
-
-A **Streamlit UI** is included for document upload and interactive Q&A.
+Unlike typical monolithic RAG pipelines, this system uses an **agent-based architecture inspired by the Model Context Protocol (MCP)** — where each stage of the pipeline is a separate, communicating agent. This makes the system modular, debuggable, and closer to how real production AI systems are designed.
 
 ---
 
-## Key Features
+## 🚩 The Problem This Solves
 
-- Multi-format document support: PDF, DOCX, PPTX, CSV, TXT  
-- Agent-based architecture:
-  - Ingestion Agent
-  - Retrieval Agent
-  - LLM Response Agent
-- MCP-style JSON structured message passing
-- Semantic search using embeddings + vector database
-- Context-aware LLM responses
-- Streamlit-based chat UI
-- Modular, debuggable design suitable for real-world systems
+Most RAG implementations are monolithic scripts — hard to debug, hard to extend, and far from production-ready.
+
+This project answers: **what does a well-architected, agent-based RAG system actually look like in code?**
+
+- You upload any combination of PDF, DOCX, PPTX, CSV, or TXT files
+- The system parses, chunks, embeds, and indexes them automatically
+- You ask questions in natural language
+- Grounded, context-aware answers come back — with full traceability through structured agent messages
 
 ---
 
+## ⚡ Key Features
+
+- **Multi-format ingestion** — PDF, DOCX, PPTX, CSV, TXT parsed and normalised into a unified pipeline
+- **Agent-based architecture** — Ingestion, Retrieval, and LLM Response agents with clean separation of concerns
+- **MCP-style JSON message passing** — structured, traceable communication between agents
+- **Semantic search** — sentence transformer embeddings + FAISS/Chroma vector store
+- **Context-aware responses** — grounded LLM answers with retrieved chunks as context
+- **Interactive Streamlit UI** — upload documents and query in real time
+- **Configurable pipeline** — chunk size, overlap, top-k retrieval, and similarity threshold all tunable
+
+---
 ## 📸 Screenshots
 
 ### 🔹 Initial Setup
@@ -42,19 +49,30 @@ A **Streamlit UI** is included for document upload and interactive Q&A.
 
 ---
 
-## System Architecture
+## 📊 Performance
+
+| Metric | Value |
+|--------|-------|
+| Supported formats | PDF, DOCX, PPTX, CSV, TXT |
+| Avg. retrieval latency | < 2s on local setup |
+| Chunk size (default) | 500 tokens |
+| Top-k retrieval (default) | 5 chunks |
+| Vector store | FAISS (default) / Chroma |
+
+---
+
+## 🏗 System Architecture
 ```
 User → Streamlit UI → Coordinator Agent
-├── Ingestion Agent → Extracts & chunks documents
-├── Retrieval Agent → Embeds & retrieves top-k chunks
-└── LLM Response Agent → Generates final response
+           ├── Ingestion Agent   → Parses, cleans & chunks documents
+           ├── Retrieval Agent   → Embeds query & retrieves top-k chunks
+           └── LLM Response Agent → Generates grounded final response
 ```
 
-Agents communicate through MCP-style structured JSON messages.
+Agents communicate via **MCP-style structured JSON messages** — every interaction is typed, traced, and logged.
 
-### Example MCP-Style Message
-
-```
+### Example Agent Message
+```json
 {
   "type": "CONTEXT_RESPONSE",
   "sender": "RetrievalAgent",
@@ -67,111 +85,110 @@ Agents communicate through MCP-style structured JSON messages.
 }
 ```
 
+---
+
 ## 🧰 Tech Stack
-| Component        | Tool / Framework                          |
-| ---------------- | ----------------------------------------- |
-| UI               | Streamlit                                 |
-| LLM              | OpenAI / HuggingFace                      |
-| Embeddings       | Sentence Transformers                     |
-| Vector Store     | FAISS / Chroma                            |
-| File Parsing     | PyMuPDF, python-docx, pandas, python-pptx |
-| Agents           | Python modules                            |
-| Message Protocol | MCP (custom JSON structure)               |
 
-## Supported File Types
-- PDF
-- DOCX
-- PPTX
-- CSV
-- TXT
+| Component | Tool |
+|-----------|------|
+| UI | Streamlit |
+| LLM | OpenAI / HuggingFace |
+| Embeddings | Sentence Transformers |
+| Vector Store | FAISS / Chroma |
+| File Parsing | PyMuPDF, python-docx, pandas, python-pptx |
+| Message Protocol | MCP-inspired custom JSON |
 
-## Installation and Local Setup
+---
 
-**1. Clone the Repository**
-```
-git clone https://github.com/<your-username>/agentic-rag-qa.git
+## 🚀 Getting Started
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/KritikaK21/agentic-rag-qa.git
 cd agentic-rag-qa
 ```
 
-**2. Create a Virtual Environment (Recommended)** 
-```
+### 2. Create a virtual environment
+```bash
 python -m venv venv
-source venv/bin/activate   # Mac / Linux
-venv\Scripts\activate      # Windows
+source venv/bin/activate      # Mac/Linux
+venv\Scripts\activate         # Windows
 ```
 
-**3. Install Dependencies**
-```
+### 3. Install dependencies
+```bash
 pip install -r requirements.txt
 ```
 
-**4. Configure Environment Variables**
-Create a .env file in the project root and add:
+### 4. Set up environment variables
+Create a `.env` file in the root directory:
 ```
 OPENAI_API_KEY=your_key_here
-(or your HuggingFace token, depending on configuration)
 ```
 
-**5. Run the Application**
-```
+### 5. Run the app
+```bash
 streamlit run app.py
 ```
-**Upload files and start asking questions.**
 
-## Retrieval Pipeline Overview
-- Documents are uploaded and parsed
-- Text is chunked
-- Chunks are embedded
-- Vectors are stored in FAISS/Chroma
-- Relevant chunks are retrieved
-- The LLM generates a grounded response
+---
 
-**Key configurable parameters include:**
-- Chunk size
-- Overlap
-- Top-k retrieval
-- Similarity threshold
+## 🔍 Retrieval Pipeline
+```
+Upload → Parse → Chunk → Embed → Store in FAISS/Chroma
+                                        ↓
+Query → Embed → Similarity Search → Top-k Chunks → LLM → Answer
+```
 
-## Why Agentic Architecture?
-Unlike traditional monolithic RAG systems, this project uses separation of concerns through agents, which enables:
-- Easier debugging and observability
-- Cleaner modularity
-- Replaceable components
-- Realistic production-style design
+**Configurable parameters:**
+- `CHUNK_SIZE` — token size per chunk (default: 500)
+- `CHUNK_OVERLAP` — overlap between chunks (default: 50)
+- `TOP_K` — number of chunks retrieved per query (default: 5)
+- `SIMILARITY_THRESHOLD` — minimum similarity score to include a chunk
 
-## Example Questions
-- Summarize the key findings across all uploaded documents
-- What KPIs are mentioned in these files?
-- Extract financial metrics from the reports
-- What decisions or recommendations are discussed?
+---
 
-## Challenges Addressed
-- Parsing and normalizing multiple document formats
-- Preserving context relevance during retrieval
-- Designing structured agent communication
-- Managing chunk size and window selection
-- Reducing hallucinations through grounded retrieval
+## 💡 Why Agentic Over Monolithic?
 
-## Future Enhancements
-- Deployment on Hugging Face or cloud platforms
-- Authentication and persistent chat history
-- Redis/Kafka-based message bus
-- LangGraph / LangChain integration
-- Evaluation dashboard and reporting
+Most RAG tutorials give you a single script. That works for demos — not for production.
 
-## Project Objective
+| | Monolithic RAG | Agentic RAG (This Project) |
+|---|---|---|
+| Debugging | Hard — one big pipeline | Easy — isolate any agent |
+| Extensibility | Risky changes | Swap agents independently |
+| Observability | Limited | Full message tracing |
+| Production readiness | Low | High |
 
-This project demonstrates:
-- Practical GenAI system design
-- Agent-based orchestration
-- Retrieval-grounded answering
-- Handling unstructured documents
-- UI + backend integration
+---
 
-## Author
-**Kritika Aggarwal**
-**GitHub:** https://github.com/KritikaK21
-**LinkedIn:** linkedin.com/in/kritika-aggarwal-734997249/
+## 🧪 Example Queries to Try
 
-## License
-This project is available under the license of your choice (MIT recommended).
+- *"Summarise the key findings across all uploaded documents"*
+- *"What KPIs are mentioned in the reports?"*
+- *"Extract all financial metrics from the uploaded files"*
+- *"What recommendations are discussed across these documents?"*
+
+---
+
+## 🔮 Roadmap
+
+- [ ] Deploy on Hugging Face Spaces
+- [ ] Add persistent chat history
+- [ ] LangGraph integration for advanced agent orchestration
+- [ ] Redis/Kafka message bus for async agent communication
+- [ ] Evaluation dashboard with retrieval accuracy metrics
+- [ ] Authentication and multi-user support
+
+---
+
+## 🙋 About
+
+Built by **Kritika Aggarwal**
+- 🐙 GitHub: [KritikaK21](https://github.com/KritikaK21)
+- 💼 LinkedIn: [kritika-aggarwal-734997249](https://linkedin.com/in/kritika-aggarwal-734997249/)
+
+---
+
+## 📄 License
+
+MIT License — feel free to use, modify and build on this.
