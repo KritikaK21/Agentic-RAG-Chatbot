@@ -1,14 +1,18 @@
 from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_chroma import Chroma  # updated import
-from langchain_community.document_loaders import DirectoryLoader, TextLoader
+from langchain_chroma import Chroma
+from langchain_community.document_loaders import TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 import os
 
 # Load documents from a folder
 def load_documents(directory="data"):
-    loader = DirectoryLoader(directory, glob="**/*.txt")
-    docs = loader.load()
-    return docs
+    os.makedirs(directory, exist_ok=True)
+    documents = []
+    for filename in os.listdir(directory):
+        if filename.endswith(".txt"):
+            loader = TextLoader(os.path.join(directory, filename))
+            documents.extend(loader.load())
+    return documents
 
 # Split into smaller chunks
 def split_documents(documents, chunk_size=500, chunk_overlap=50):
@@ -21,17 +25,20 @@ def create_embeddings(model_name="sentence-transformers/all-MiniLM-L6-v2"):
 
 # Create or load Chroma vector store
 def get_vector_store(docs, embeddings, persist_directory="chroma_db"):
-    if os.path.exists(persist_directory):
+    if os.path.exists(persist_directory) and os.listdir(persist_directory):
         print("🔁 Loading existing Chroma vector store...")
         vectordb = Chroma(persist_directory=persist_directory, embedding_function=embeddings)
     else:
         print("💾 Creating new Chroma vector store...")
         vectordb = Chroma.from_documents(documents=docs, embedding=embeddings, persist_directory=persist_directory)
-        vectordb.persist()
     return vectordb
 
 # Build retriever
 def build_retriever():
+    os.makedirs("data", exist_ok=True)
+    if not os.listdir("data"):
+        with open("data/default.txt", "w") as f:
+            f.write("LangChain is a framework for developing applications powered by language models. It enables RAG from external sources and is used for building chatbots and Q&A systems.")
     raw_docs = load_documents()
     split_docs = split_documents(raw_docs)
     embeddings = create_embeddings()
@@ -45,14 +52,10 @@ def rebuild_retriever_from_uploaded_files(file_paths):
     for path in file_paths:
         loader = TextLoader(path)
         documents.extend(loader.load())
-
     splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
     split_docs = splitter.split_documents(documents)
-
     embeddings = create_embeddings()
     vector_store = Chroma.from_documents(documents=split_docs, embedding=embeddings, persist_directory="chroma_db")
-    vector_store.persist()
-
     return vector_store.as_retriever(search_kwargs={"k": 3})
 
 # Test run
@@ -61,4 +64,3 @@ if __name__ == "__main__":
     results = retriever.invoke("What is LangChain?")
     for i, doc in enumerate(results):
         print(f"\n--- Document {i+1} ---\n{doc.page_content}")
-
