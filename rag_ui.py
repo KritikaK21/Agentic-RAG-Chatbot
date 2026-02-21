@@ -1,7 +1,7 @@
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_chroma import Chroma  # updated import
 from langchain_community.document_loaders import DirectoryLoader, TextLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 import os
 
 # Load documents from a folder
@@ -61,3 +61,4 @@ if __name__ == "__main__":
     results = retriever.invoke("What is LangChain?")
     for i, doc in enumerate(results):
         print(f"\n--- Document {i+1} ---\n{doc.page_content}")
+
