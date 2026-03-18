@@ -6,6 +6,16 @@ Unlike typical monolithic RAG pipelines, this system uses an **agent-based archi
 
 ---
 
+## 🚀 Live Demo
+
+**Deployed on Hugging Face Spaces:**  
+👉 [https://huggingface.co/spaces/kritikaaggarwal22/agentic-rag-chatbot](https://huggingface.co/spaces/kritikaaggarwal22/agentic-rag-chatbot)
+
+### 🔹 Live App Screenshot
+<img width="1600" height="703" alt="image" src="https://github.com/user-attachments/assets/95ad0c53-e9cf-4e58-89b7-40530de1f77b" />
+
+---
+
 ## 🚩 The Problem This Solves
 
 Most RAG implementations are monolithic scripts — hard to debug, hard to extend, and far from production-ready.
