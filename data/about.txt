@@ -1,0 +1,9 @@
+This project is an Agentic RAG Chatbot built using LangChain, ChromaDB, and FastAPI. 
+It uses a multi-agent architecture with four agents:
+1. IngestionAgent - handles document loading and parsing
+2. RetrievalAgent - searches the vector store for relevant chunks
+3. LLMResponseAgent - generates answers using a language model
+4. CoordinatorAgent - orchestrates all agents together
+
+The chatbot supports PDF, DOCX, CSV, PPTX and TXT file formats.
+It uses sentence-transformers for embeddings and ChromaDB as the vector store.

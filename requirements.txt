@@ -7,9 +7,10 @@ langchain-huggingface
 transformers
 sentence-transformers
 chromadb
-torch
-streamlit
+gradio
 pymupdf
 python-docx
 pandas
 python-pptx
+google-generativeai
+python-dotenv

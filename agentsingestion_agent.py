@@ -1,4 +1,4 @@
-from utils.file_parser import parse_file
+from utilsfile_parser import parse_file
 import uuid
 
 class IngestionAgent:
